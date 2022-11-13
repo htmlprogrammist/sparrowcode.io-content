@@ -33,55 +33,55 @@ let localisedString = NSLocalizedString(
 
 ```txt
 /* Пример комментария для ключа */
-"label text" = "Localised Text";
+"label text" = "Localized Text";
 ```
 
-Ключ локализован - теперь по ключу `label text` вернётся локализованное значение `Localised Text`. Заполните по аналогии другие языки.
+Ключ локализован - теперь по ключу `label text` вернётся локализованное значение `Localized Text`. Заполните по аналогии другие языки.
 
 ### Передача параметра в строку
 
-Возможность пригодится, если хотите поприветствовать пользователя. Например, написать `Привет, Имя!` или отобразить время `Осталось X минут`. В `NSLocalizedString` можно передавать параметры — строки или числа. Для этого нужны спецификаторы - Xcode заменит их на значения:
+Возможность пригодится, если хотите поприветствовать пользователя. Например, написать _"Привет, Имя!"_ или отобразить время _"Осталось X минут"_. В `NSLocalizedString` можно передавать параметры — строки или числа. Для этого нужны спецификаторы - Xcode заменит их на значения:
 
-- %@ - для значений String;
-- %d - для значений Int;
-- %f - для значений Float;
-- %ld - для значений Long;
+- `%@` - для значений типа `String`;
+- `%d` - для значений типа `Int`;
+- `%f` - для значений типа `Float`;
+- `%ld` - для значений типа `Long`;
 
 Весь список спецификаторов находится на сайте [Apple Developer](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html).
 
 Перейдём к примеру. Давайте создадим объект `String` с инициализатором `format`:
 
 ```swift
-let parametrString = "Parametr Example" // параметр, который будем передавать 
+let parameterString = "Parameter Example" // параметр, который будем передавать 
 
 let localisedString = String(
     format: NSLocalizedString(
         "label text", // ключ локализации 
         comment: "" // комментарий
-    ), parametrString // переменная
+    ), parameterString // переменная
 )
 ```
 
 Теперь локализуем ключ с параметром. Перейдём в `Localizable.strings` и добавим:
 
 ```txt
-"label text" = "Localised Text with %@";
+"label text" = "Localized Text with %@";
 ```
 
-Мы использовали спецификатор для параметров с типом `String` - `%@`, он заменится значением.  Теперь при выводе ключа `label text` получим `label text with Parametr Example`.
+Мы использовали спецификатор для параметров с типом `String` - `%@`, он заменится значением.  Теперь при выводе ключа `label text` получим `Localized Text with Parameter Example`.
 
 ### Порядок параметров
 
 Если в строке находятся два спецификатора одинакового типа, то значения отобразятся в том порядке, в котором мы их передадим. Давайте создадим переменную `localisedString`, принимающую 3 параметра:
 
 ```swift
-let parametrString = "Make Apple"
-let secondParametrString = "great again"
-let parametrInt = 941
+let parameterString = "Make Apple"
+let secondParameterString = "great again"
+let parameterInt = 941
 
 let localisedString = String(
     format: NSLocalizedString("label text", comment: ""), 
-    parametrString, secondParametrString, parametrInt
+    parameterString, secondParameterString, parameterInt
 )
 ```
 
@@ -102,13 +102,13 @@ let localisedString = String(
 Теперь при выводе переменной `localisedString` мы получим текст: `Lets Make Apple a true great again at 941 o'clock`. Если изменить порядок элементов, то изменится их порядок при выводе. Например, если создадим `localisedString` так: 
 
 ```swift
-let parametrString = "Make Apple"
-let secondParametrString = "great again"
-let parametrInt = 941
+let parameterString = "Make Apple"
+let secondParameterString = "great again"
+let parameterInt = 941
 
 let localisedString = String(
     format: NSLocalizedString("label text", comment: ""), 
-    secondParametrString, parametrString, parametrInt // меняем parametrString и secondParametrString местами
+    secondParameterString, parameterString, parameterInt // меняем parameterString и secondParameterString местами
 )
 ```
 
@@ -312,8 +312,8 @@ func headphonesCount(count: Int) -> String {
 
 ![Структура файла `Stringsdict`.](https://cdn.sparrowcode.io/tutorials/localisation/pluralisation-stringsdict-empty.jpg)
 
-- `Localised String Key` — ключ локализации - `headphones count`.
-- `Localised Format Key` — параметр, значение которого войдёт в строку результата. В нашем случае только один: `count`.
+- `Localized String Key` — ключ локализации - `headphones count`.
+- `Localized Format Key` — параметр, значение которого войдёт в строку результата. В нашем случае только один: `count`.
 - `NSStringFormatSpecTypeKey` — указывает единственный возможный тип перевода `NSStringPluralRuleType`. Он значит то, что в переводе встречается множество имён существительных (то, что мы хотим локализовать). Его не трогаем.
 - `NSStringFormatValueTypeKey` — строковый спецификатор формата числа. Например, `d` для целых чисел. Полный список [тут](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html).
 - `zero, one, two, few, many, other` — различные формы множественного числа для языков. Обязательное `other` — оно будет использовано, если переданное число не удовлетворит ни одному из перечисленных условий. Остальные можно убрать, если они не используются.
@@ -604,5 +604,5 @@ NSLocalizedString("settings controller table feedback section footer", comment: 
 
 ### Особенности
 
-- Интерфейс должен быть динамическим. Заранее рассчитать ширину и высоту лейбла под текст не получится, потому что одни и те же слова занимают разное место в зависимости от языка. Обычное «Как ты?» переводится с русского на французский как «Comment allez-vous?».
+- Интерфейс должен быть динамическим. Заранее рассчитать ширину и высоту лейбла под текст не получится, потому что одни и те же слова занимают разное место в зависимости от языка. Обычное _«Как ты?»_ переводится с русского на французский как _«Comment allez-vous?»_.
 - На английском языке действия, кнопки и функциональные слова пишутся с большой буквы. Так, кнопка «Add new» должна выглядеть как «Add New». На русском с заглавной буквы только первое слово.
